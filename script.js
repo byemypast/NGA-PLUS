@@ -5,6 +5,8 @@
 // @grant    GM.setValue
 // @include  http://nga.178.com/*
 // @include  https://nga.178.com/*
+// @include  https://bbs.nga.cn/*
+// @include  http://bbs.nga.cn/*
 // ==/UserScript==
 var ARRAY_COLOR_LIST=new Array("red","yellow","green","aqua","blue","purple","white","black")
 
