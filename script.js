@@ -7,30 +7,53 @@
 // @include  https://nga.178.com/*
 // @include  https://bbs.nga.cn/*
 // @include  http://bbs.nga.cn/*
+// @include  https://*.ngabbs.com/*
+// @include  http://*.ngabbs.com/*
 // ==/UserScript==
 var ARRAY_COLOR_LIST=new Array("red","yellow","green","aqua","blue","purple","white","black")
 
 //渲染页面
 //针对帖子列表页面
-async function NGA_PLUS(){
-list_time = document.getElementsByClassName("silver postdate")
-for (i = 0;i<list_time.length;i++){
-    str_user_id = list_time[i].parentNode.firstElementChild.title
-    int_user_color = await GM.getValue(str_user_id) //读取之前设置的颜色index
-    if (int_user_color) {
-        console.log(`user:${str_user_id} `)
-        console.log(`usercolor:${ARRAY_COLOR_LIST[int_user_color % ARRAY_COLOR_LIST.length]} `)
-        obj_c3 = list_time[i].parentNode
-        obj_c3.parentNode.getElementsByClassName("c2")[0].getElementsByClassName("topic")[0].style.color = ARRAY_COLOR_LIST[int_user_color % ARRAY_COLOR_LIST.length]
-        console.log(`color done`)
-    }
-    str_user_note = await GM.getValue(str_user_id + "_备注","") // 读取之前设置的备注
-    if (str_user_note != ""){
-        console.log(`user:${str_user_id}`)
-        list_time[i].innerText += " 备注:" + str_user_note
-        list_time[i].style.color = "red"
-    }
 
+str_url = window.location.href
+async function NGA_PLUS(){
+
+if (str_url.indexOf("read.php?")>=0){
+    //渲染读取页面
+        //首先渲染客户端来源
+        list_source = document.getElementsByClassName(" client_icon")
+        for (i = 0;i<list_source.length;i++){
+            str_source = list_source[i].title.replace("发送自 ","").replace(" 上的 NGA官方客户端","").replace("NGA官方客户端","开源版客户端(Android)")
+            obj_newinfo = document.createElement('span')
+            obj_newinfo.style.color = "black"
+            obj_newinfo.innerText = str_source
+            
+            obj_poster = list_source[i].parentNode
+            obj_poster.insertBefore(obj_newinfo,obj_poster.lastChild)
+            console.log("done")
+        }
+}else {
+
+
+    //渲染其他页面，如搜索、帖子列表等
+    list_time = document.getElementsByClassName("silver postdate")
+    for (i = 0;i<list_time.length;i++){
+        str_user_id = list_time[i].parentNode.firstElementChild.title
+        int_user_color = await GM.getValue(str_user_id) //读取之前设置的颜色index
+        if (int_user_color) {
+            console.log(`user:${str_user_id} `)
+            console.log(`usercolor:${ARRAY_COLOR_LIST[int_user_color % ARRAY_COLOR_LIST.length]} `)
+            obj_c3 = list_time[i].parentNode
+            obj_c3.parentNode.getElementsByClassName("c2")[0].getElementsByClassName("topic")[0].style.color = ARRAY_COLOR_LIST[int_user_color % ARRAY_COLOR_LIST.length]
+            console.log(`color done`)
+        }
+        str_user_note = await GM.getValue(str_user_id + "_备注","") // 读取之前设置的备注
+        if (str_user_note != ""){
+            console.log(`user:${str_user_id}`)
+            list_time[i].innerText += " 备注:" + str_user_note
+            list_time[i].style.color = "red"
+        }
+    }
 }
 }
 
