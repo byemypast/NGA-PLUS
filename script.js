@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     NGA PLUS
-// @version  1.2
+// @version  1.4
 // @grant    GM.getValue
 // @grant    GM.setValue
 // @include  http://nga.178.com/*
@@ -9,7 +9,7 @@
 // @include  http://bbs.nga.cn/*
 // @include  https://*.ngabbs.com/*
 // @include  http://*.ngabbs.com/*
-// BUG:http://nga.178.com/thread.php?authorid=43050790
+// BUG:http://nga.178.com/read.php?tid=16709887&_ff=-7
 // ==/UserScript==
 var ARRAY_COLOR_LIST=new Array("red","yellow","green","aqua","blue","purple","white","black")
 
@@ -33,8 +33,8 @@ if (str_url.indexOf("read.php?")>=0){
             obj_poster = list_source[i].parentNode
             obj_poster.insertBefore(obj_newinfo,obj_poster.lastChild)
             console.log("done")
-            retrun
         }
+        return
     } 
 }
     //渲染其他页面，如搜索、帖子列表等
