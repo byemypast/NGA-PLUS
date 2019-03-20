@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name     NGA PLUS
-// @version  1
+// @version  1.2
 // @grant    GM.getValue
 // @grant    GM.setValue
 // @include  http://nga.178.com/*
@@ -9,6 +9,7 @@
 // @include  http://bbs.nga.cn/*
 // @include  https://*.ngabbs.com/*
 // @include  http://*.ngabbs.com/*
+// BUG:http://nga.178.com/thread.php?authorid=43050790
 // ==/UserScript==
 var ARRAY_COLOR_LIST=new Array("red","yellow","green","aqua","blue","purple","white","black")
 
@@ -19,6 +20,7 @@ str_url = window.location.href
 async function NGA_PLUS(){
 
 if (str_url.indexOf("read.php?")>=0){
+    if (str_url.indexOf("thread.php")<0){
     //渲染读取页面
         //首先渲染客户端来源
         list_source = document.getElementsByClassName(" client_icon")
@@ -31,14 +33,15 @@ if (str_url.indexOf("read.php?")>=0){
             obj_poster = list_source[i].parentNode
             obj_poster.insertBefore(obj_newinfo,obj_poster.lastChild)
             console.log("done")
+            retrun
         }
-}else {
-
-
+    } 
+}
     //渲染其他页面，如搜索、帖子列表等
     list_time = document.getElementsByClassName("silver postdate")
     for (i = 0;i<list_time.length;i++){
         str_user_id = list_time[i].parentNode.firstElementChild.title
+
         int_user_color = await GM.getValue(str_user_id) //读取之前设置的颜色index
         if (int_user_color) {
             console.log(`user:${str_user_id} `)
@@ -55,7 +58,7 @@ if (str_url.indexOf("read.php?")>=0){
         }
     }
 }
-}
+
 
 NGA_PLUS();
 
