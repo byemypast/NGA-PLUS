@@ -13,7 +13,6 @@
 // @include  http://bbs.nga.cn/*
 // @include  https://*.ngabbs.com/*
 // @include  http://*.ngabbs.com/*
-// BUG:http://nga.178.com/read.php?tid=16709887&_ff=-7
 // ==/UserScript==
 var ARRAY_COLOR_LIST=new Array("red","yellow","green","aqua","blue","purple","white","black") //设置循环颜色
 var NGA_PLUS_VERSION = 2.0
@@ -245,7 +244,6 @@ document.addEventListener('click',async function(event){
         var newstr = prompt("请修改对该用户的备注","")
         int_user_color = await GM.getValue(str_user_id,0)
         event.target.innerText = "备注: " + newstr
-        event.target.style.color = ARRAY_COLOR_LIST[str_user_value % ARRAY_COLOR_LIST.length]
         str_user_id = event.target.id
         await GM.setValue(str_user_id+"_备注",newstr)
     }
